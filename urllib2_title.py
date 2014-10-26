@@ -1,10 +1,6 @@
 #coding:utf-8
 from urllib2 import Request, urlopen, URLError, HTTPError
-import chardet
-import sys
-import urllib2
-import re
-import time
+import chardet, sys, urllib2, re, time
 #轮询主机列表
 for line in open("host"):
   #替换 轮询主机列表 每行结果的换行 为空白
@@ -59,4 +55,3 @@ for line in open("host"):
       else:
         output=open('result.txt','a')
         output.write("error"+" "+line+"\n")
-        ##测试
