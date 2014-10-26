@@ -59,3 +59,4 @@ for line in open("host"):
       else:
         output=open('result.txt','a')
         output.write("error"+" "+line+"\n")
+        ##测试
