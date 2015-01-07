@@ -1,57 +1,90 @@
 #coding:utf-8
 from urllib2 import Request, urlopen, URLError, HTTPError
-import chardet, sys, urllib2, re, time
+import chardet
+import sys
+import string
+import urllib2
+import urllib
+import re
+import time
+import socket
+urllib2.socket.setdefaulttimeout(30)
 #轮询主机列表
-for line in open("host"):
+for line in open("host0"):
   #替换 轮询主机列表 每行结果的换行 为空白
   line=line.replace("\n","")
-  req = Request("http://"+line)
+  req = "http://"+line
   try:
     response = urlopen(req)
+    #`time.sleep(200)
     #等待200毫秒，以免服务器挂掉连接
-     time.sleep(0.2)
-  except HTTPError, e:
-    output=open('result.txt','a')
-    output.write("HTTPError"+str(e.code)+" "+line+"\n")
-  except URLError, e:
-    output=open('result.txt','a')
-    output.write("URLError"+str(e.reason)+" "+line+"\n")
+  except Exception,e:
+    output=open('result0.txt','a')
+    output.write("url_Error"+str(e)+" "+line+"\n")
   else:
-    html_1 = urllib2.urlopen('http://'+line,timeout=200).read()
-     time.sleep(0.2)
-    encoding_dict = chardet.detect(html_1)
-    web_encoding = encoding_dict['encoding']
-    if web_encoding == 'utf-8' or web_encoding == 'UTF-8':
+   try:
+    html_1 = urllib2.urlopen('http://'+line).read()
+   except Exception,x:
+    output=open('result0.txt','a')
+    output.write("http_Error"+str(x)+" "+line+"\n")
+   else:
+    data = urllib.urlopen(req).read()
+    target =str(chardet.detect(data))
+    print target
+    bianma = ["ISO-8859-2","utf"]
+    if bianma[0] or bianma[1] in target.lower():
+      print "yes"
       html=html_1
       if "百家乐" in html:
-        output=open('result.txt','a')
-        output.write("baijiale"+" "+line+"\n")
+        output=open('result0.txt','a')
+        output.write("违规信息-百家乐"+" "+line+"\n")
       elif "太阳城" in html:
-        output=open('result.txt','a')
-        output.write("taiyangcheng"+" "+line+"\n")
-      m=re.search(r'<title>(.*)</title>', html, flags=re.I)
+        output=open('result0.txt','a')
+        output.write("违规信息-太阳城"+" "+line+"\n")
+      html=string.replace(html,'\r\n','');
+      html=string.replace(html,'\n','');
+      m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
       #如果标题不为空 则真，否则为假
+      print m
       if m:
-        output=open('result.txt','a')
-        output.write(m.group(1)+line+"\n")
-        #print html
-      else:
-        output=open('result.txt','a')
-        output.write("error"+" "+line+"\n")
-    else :
-      html = html_1.decode('gbk','ignore').encode('utf-8')
-      m=re.search(r'<title>(.*)</title>', html, flags=re.I)
-      if "百家乐" in html:
-        output=open('result.txt','a')
-        output.write("baijiale"+" "+line+"\n")
-      elif "太阳城" in html:
-        output=open('result.txt','a')
-        output.write("taiyangcheng"+" "+line+"\n")
-      #如果标题不为空 则真，否则为假
+       print m.group()
       if m:
-        output=open('result.txt','a')
+        output=open('result0.txt','a')
         output.write(m.group(1)+line+"\n")
         #print html;
       else:
-        output=open('result.txt','a')
-        output.write("error"+" "+line+"\n")
+        m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
+        if m:
+          output=open('result0.txt','a')
+          output.write(m.group(1)+line+"\n")
+          #print html;
+        else:
+          output=open('result0.txt','a')
+          output.write("error"+" "+line+"\n")
+    else :
+      html = html_1.decode('gbk','ignore').encode('utf-8')
+      html=string.replace(html,'\r\n','');
+      html=string.replace(html,'\n','');
+      m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
+      if m:
+       print m.group()
+      if "百家乐" in html:
+        output=open('result0.txt','a')
+        output.write("违规信息-百家乐"+" "+line+"\n")
+      elif "太阳城" in html:
+        output=open('result0.txt','a')
+        output.write("违规信息-太阳城"+" "+line+"\n")
+      #如果标题不为空 则真，否则为假
+      if m:
+        output=open('result0.txt','a')
+        output.write(m.group(1)+line+"\n")
+        #print html;
+      else:
+        m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
+        if m:
+          output=open('result0.txt','a')
+          output.write(m.group(1)+line+"\n")
+          #print html;
+        else:
+          output=open('result0.txt','a')
+          output.write("error"+" "+line+"\n")
