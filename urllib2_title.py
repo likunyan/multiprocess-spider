@@ -16,17 +16,17 @@ for line in open("host0"):
   req = "http://"+line
   try:
     response = urlopen(req)
-    #`time.sleep(200)
+    #time.sleep(200)
     #等待200毫秒，以免服务器挂掉连接
   except Exception,e:
     output=open('result0.txt','a')
-    output.write("url_Error"+str(e)+" "+line+"\n")
+    output.write("url_Error"+str(e)+" http://"+line+"\n")
   else:
    try:
     html_1 = urllib2.urlopen('http://'+line).read()
    except Exception,x:
     output=open('result0.txt','a')
-    output.write("http_Error"+str(x)+" "+line+"\n")
+    output.write("http_Error"+str(x)+" http://"+line+"\n")
    else:
     data = urllib.urlopen(req).read()
     target =str(chardet.detect(data))
@@ -37,10 +37,10 @@ for line in open("host0"):
       html=html_1
       if "百家乐" in html:
         output=open('result0.txt','a')
-        output.write("违规信息-百家乐"+" "+line+"\n")
+        output.write("违规信息-百家乐"+" http://"+line+"\n")
       elif "太阳城" in html:
         output=open('result0.txt','a')
-        output.write("违规信息-太阳城"+" "+line+"\n")
+        output.write("违规信息-太阳城"+" http://"+line+"\n")
       html=string.replace(html,'\r\n','');
       html=string.replace(html,'\n','');
       m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
@@ -50,17 +50,17 @@ for line in open("host0"):
        print m.group()
       if m:
         output=open('result0.txt','a')
-        output.write(m.group(1)+line+"\n")
+        output.write(m.group(1)+" http://"+line+"\n")
         #print html;
       else:
         m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
         if m:
           output=open('result0.txt','a')
-          output.write(m.group(1)+line+"\n")
+          output.write(m.group(1)+" http://"+line+"\n")
           #print html;
         else:
           output=open('result0.txt','a')
-          output.write("error"+" "+line+"\n")
+          output.write("error"+" http://"+line+"\n")
     else :
       html = html_1.decode('gbk','ignore').encode('utf-8')
       html=string.replace(html,'\r\n','');
@@ -70,21 +70,21 @@ for line in open("host0"):
        print m.group()
       if "百家乐" in html:
         output=open('result0.txt','a')
-        output.write("违规信息-百家乐"+" "+line+"\n")
+        output.write("违规信息-百家乐"+" http://"+line+"\n")
       elif "太阳城" in html:
         output=open('result0.txt','a')
-        output.write("违规信息-太阳城"+" "+line+"\n")
+        output.write("违规信息-太阳城"+" http://"+line+"\n")
       #如果标题不为空 则真，否则为假
       if m:
         output=open('result0.txt','a')
-        output.write(m.group(1)+line+"\n")
+        output.write(m.group(1)+" http://"+line+"\n")
         #print html;
       else:
         m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
         if m:
           output=open('result0.txt','a')
-          output.write(m.group(1)+line+"\n")
+          output.write(m.group(1)+" http://"+line+"\n")
           #print html;
         else:
           output=open('result0.txt','a')
-          output.write("error"+" "+line+"\n")
+          output.write("error"+" http://"+line+"\n")
