@@ -1,6 +1,9 @@
 title
 =====
 Python网页爬虫
+两种方式:
+1.httplib2，对应文件httplib2_title.py
+2.urllib2，对应文urllib2_title.py
 
 1.记录网址标题
 
