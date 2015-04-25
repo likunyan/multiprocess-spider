@@ -30,8 +30,8 @@ for line in open("host0"):  #轮询主机列表
     target =str(chardet.detect(data))
     print target
     bianma = ["ISO-8859-2","utf"]
-    if bianma[0] or bianma[1] in target.lower():
-      print "yes"
+    if bianma[0] in target.lower() or bianma[1] in target.lower():
+      print "Yes,It's utf-8"
       html=html_1
       if "百家乐" in html:
         output=open(result,'a')
@@ -59,6 +59,7 @@ for line in open("host0"):  #轮询主机列表
           output=open(result,'a')
           output.write("error"+" http://"+line+"\n")
     else :
+      print "No utf8 "
       html = html_1.decode('gbk','ignore').encode('utf-8')
       html=string.replace(html,'\r\n','');
       html=string.replace(html,'\n','');
