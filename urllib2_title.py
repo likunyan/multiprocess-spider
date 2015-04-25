@@ -9,16 +9,13 @@ import re
 import time
 import socket
 urllib2.socket.setdefaulttimeout(30)
-#轮询主机列表
 result="result0.txt"
-for line in open("host0"):
-  #替换 轮询主机列表 每行结果的换行 为空白
-  line=line.replace("\n","")
+for line in open("host0"):  #轮询主机列表
+  line=line.replace("\n","")  #替换 轮询主机列表 每行结果的换行 为空白
   req = "http://"+line
   try:
     response = urlopen(req)
-    #time.sleep(200)
-    #等待200毫秒，以免服务器挂掉连接
+    #time.sleep(200)  #等待200毫秒，以免Web服务器频繁挂掉连接
   except Exception,e:
     output=open(result,'a')
     output.write("url_Error"+str(e)+" http://"+line+"\n")
@@ -45,8 +42,7 @@ for line in open("host0"):
       html=string.replace(html,'\r\n','');
       html=string.replace(html,'\n','');
       m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
-      #如果标题不为空 则真，否则为假
-      print m
+      print m  #如果标题不为空 则真，否则为假
       if m:
        print m.group()
       if m:
@@ -75,8 +71,7 @@ for line in open("host0"):
       elif "太阳城" in html:
         output=open(result,'a')
         output.write("违规信息-太阳城"+" http://"+line+"\n")
-      #如果标题不为空 则真，否则为假
-      if m:
+      if m:  #如果标题不为空 则真，否则为假
         output=open(result,'a')
         output.write(m.group(1)+" http://"+line+"\n")
         #print html;
