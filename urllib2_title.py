@@ -20,7 +20,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
         self.threadID = threadID
         self.name = name
     def run(self):           #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
-#插入python爬虫 1.0开始 #修改了两处地方
+#插入旧版本的python爬虫(1.0)开始 #修改了两处地方
         file=str(self.name)  #tmp，转为string类型
         result="result"
         for line in open(file):  #轮询主机列表
@@ -31,13 +31,13 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             #time.sleep(200)  #等待200毫秒，以免Web服务器频繁挂掉连接
           except Exception,e:
             output=open(result,'a')
-            output.write("url_Error"+str(e)+" http://"+line+"\n")
+            output.write("url_Error "+str(e)+" http://"+line+"\n")
           else:
            try:
             html_1 = urllib2.urlopen('http://'+line).read()
            except Exception,x:
             output=open(result,'a')
-            output.write("http_Error"+str(x)+" http://"+line+"\n")
+            output.write("http_Error "+str(x)+" http://"+line+"\n")
            else:
             data = urllib.urlopen(req).read()
             target =str(chardet.detect(data))
@@ -98,7 +98,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 else:
                   output=open(result,'a')
                   output.write("error"+" http://"+line+"\n")
-#插入python爬虫 2.0开始
+#插入旧版本的python爬虫(1.0)结束
 # 创建新线程
 thread1 = myThread(1, "self0")
 thread2 = myThread(2, "self1")
