@@ -101,13 +101,13 @@ class myThread (threading.Thread):   #继承父类threading.Thread
 #插入python爬虫 2.0开始
 # 创建新线程
 thread1 = myThread(1, "self0")
-thread2 = myThread(2, "self2")
-thread3 = myThread(3, "self3")
-thread4 = myThread(4, "self4")
-thread1 = myThread(5, "self5")
-thread2 = myThread(6, "self6")
-thread3 = myThread(7, "self7")
-thread4 = myThread(8, "self8")
+thread2 = myThread(2, "self1")
+thread3 = myThread(3, "self2")
+thread4 = myThread(4, "self3")
+thread1 = myThread(5, "self4")
+thread2 = myThread(6, "self5")
+thread3 = myThread(7, "self6")
+thread4 = myThread(8, "self7")
 # 开启线程
 thread1.start()
 thread2.start()
