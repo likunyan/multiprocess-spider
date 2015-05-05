@@ -11,7 +11,7 @@ import time
 import socket
 import threading  #多进程用
 urllib2.socket.setdefaulttimeout(30)
-#python爬虫1.1 beta 加入多进程 为8进程
+#python爬虫1.1 beta 加入多进程 进程数量可以在后面自己添加下，暂时还没改好让使用者输入数字为多进程的数量
 exitFlag = 0
 
 class myThread (threading.Thread):   #继承父类threading.Thread
@@ -20,7 +20,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
         self.threadID = threadID
         self.name = name
     def run(self):           #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
-#插入python爬虫 1.0开始
+#插入python爬虫 1.0开始 #修改了两处地方
         file=str(self.name)  #tmp，转为string类型
         result="result"
         for line in open(file):  #轮询主机列表
