@@ -11,7 +11,7 @@ import re
 import time
 import socket
 import threading  #多进程用
-urllib2.socket.setdefaulttimeout(30)
+#urllib2.socket.setdefaulttimeout(60) #Python2.6以前的版本
 
 exitFlag = 0
 class myThread (threading.Thread):   #继承父类threading.Thread
@@ -34,7 +34,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 output.write("url_Error "+str(e)+" http://"+line+"\n")
             else:
                 try:
-                    html_1 = urllib2.urlopen('http://'+line).read()
+                    html_1 = urllib2.urlopen('http://'+line,timeout=60).read()
                 except Exception,x:
                     output=open(result,'a')
                     output.write("http_Error "+str(x)+" http://"+line+"\n")
