@@ -29,7 +29,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             try:
                 response = urlopen(req)
                 #time.sleep(N)  #等待N(N值暂未测量)毫秒，以免Web服务器频繁挂掉连接
-             except Exception,e:
+            except Exception,e:
                 output=open(result,'a')
                 output.write("url_Error "+str(e)+" http://"+line+"\n")
             else:
