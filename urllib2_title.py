@@ -44,13 +44,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 except:
                     print "1"
                 else:
-                    try:
-                        data = urllib2.urlopen(reqUrl,timeout=60).read()
-                    except Exception,x:
-                        print"2"
-                    except:
-                        print "3"
-                    coding =str(chardet.detect(data))
+                    coding =str(chardet.detect(html))
                     #print coding
                     isUTF8 = ["ISO-8859-2","utf"]
                     if isUTF8[0] in coding.lower() or isUTF8[1] in coding.lower():
