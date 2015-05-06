@@ -22,7 +22,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
     def run(self):      #把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
         #插入旧版本的python爬虫(1.0)开始 #修改了两处地方
         file=str(self.name)  #转为string类型
-        result="result"  #多(N)进程的执行结果保存到result文件中去，如果要分开存放，可以修改下
+        result=self.name+"-result"  #多(N)进程的执行结果保存到各自的result文件中去
         for line in open(file):  #轮询self*文件中的网址
             line=line.replace("\n","")  #替换上一步中，轮询到的每行结果中的换行字符为空白
             req = "http://"+line
@@ -100,14 +100,14 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                             output.write("error"+" http://"+line+"\n")
 #插入旧版本的python爬虫(1.0)结束
 # 创建新线程
-thread1 = myThread(1, "self0")
-thread2 = myThread(2, "self1")
-thread3 = myThread(3, "self2")
-thread4 = myThread(4, "self3")
-thread5 = myThread(5, "self4")
-thread6 = myThread(6, "self5")
-thread7 = myThread(7, "self6")
-thread8 = myThread(8, "self7")
+thread1 = myThread(1, "self00")
+thread2 = myThread(2, "self01")
+thread3 = myThread(3, "self02")
+thread4 = myThread(4, "self03")
+thread5 = myThread(5, "self04")
+thread6 = myThread(6, "self05")
+thread7 = myThread(7, "self06")
+thread8 = myThread(8, "self07")
 # 开启线程
 thread1.start()
 thread2.start()
