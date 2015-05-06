@@ -32,72 +32,81 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             except Exception,e:
                 output=open(result,'a')
                 output.write("url_Error "+str(e)+" http://"+line+"\n")
+            except:
+                print "0"
             else:
                 try:
-                    html_1 = urllib2.urlopen('http://'+line,timeout=60).read()
+                    html_1 = urllib2.urlopen(req,timeout=60).read()
                 except Exception,x:
                     output=open(result,'a')
                     output.write("http_Error "+str(x)+" http://"+line+"\n")
+                except:
+                    print "1"
                 else:
-                    data = urllib.urlopen(req).read()
+                    try:
+                        data = urllib2.urlopen(req,timeout=60).read()
+                    except Exception,x:
+                        print"2"
+                    except:
+                        print "3"
                     target =str(chardet.detect(data))
                     #print target
                     bianma = ["ISO-8859-2","utf"]
-                if bianma[0] in target.lower() or bianma[1] in target.lower():
-                    #print "Yes,It's utf-8"
-                    html=html_1
-                    if "百家乐" in html:
-                        output=open(result,'a')
-                        output.write("违规信息-百家乐"+" http://"+line+"\n")
-                    elif "太阳城" in html:
-                        output=open(result,'a')
-                        output.write("违规信息-太阳城"+" http://"+line+"\n")
-                    html=string.replace(html,'\r\n','');
-                    html=string.replace(html,'\n','');
-                    m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
-                    #print m  #如果标题不为空 则真，否则为假
-                    #if m:
-                        #print m.group()
-                    if m:
-                        output=open(result,'a')
-                        output.write(m.group(1)+" http://"+line+"\n")
-                        #print html;
-                    else:
-                        m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
+                    if bianma[0] in target.lower() or bianma[1] in target.lower():
+                        #print "Yes,It's utf-8"
+                        html=html_1
+                        if "百家乐" in html:
+                            output=open(result,'a')
+                            output.write("违规信息-百家乐 "+req+"\n")
+                        elif "太阳城" in html:
+                            output=open(result,'a')
+                            output.write("违规信息-太阳城 "+req+"\n")
+                        html=string.replace(html,'\r\n','');
+                        html=string.replace(html,'\n','');
+                        m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
+                        #print m  #如果标题不为空 则真，否则为假
+                        #if m:
+                            #print m.group()
                         if m:
                             output=open(result,'a')
-                            output.write(m.group(1)+" http://"+line+"\n")
+                            output.write(m.group(1)+" "+req+"\n")
                             #print html;
                         else:
+                            m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
+                            if m:
+                                output=open(result,'a')
+                                output.write(m.group(1)+" "+req+"\n")
+                                #print html;
+                            else:
+                                output=open(result,'a')
+                                output.write("error"+" "+req+"\n")
+                    else :
+                        #print "No utf8 "
+                        html = html_1.decode('gbk','ignore').encode('utf-8')
+                        html=string.replace(html,'\r\n','');
+                        html=string.replace(html,'\n','');
+                        m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
+                        #if m:
+                            #print m.group()
+                        if "百家乐" in html:
                             output=open(result,'a')
-                            output.write("error"+" http://"+line+"\n")
-                else :
-                    #print "No utf8 "
-                    html = html_1.decode('gbk','ignore').encode('utf-8')
-                    html=string.replace(html,'\r\n','');
-                    html=string.replace(html,'\n','');
-                    m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
-                    #if m:
-                        #print m.group()
-                    if "百家乐" in html:
-                        output=open(result,'a')
-                        output.write("违规信息-百家乐"+" http://"+line+"\n")
-                    elif "太阳城" in html:
-                        output=open(result,'a')
-                        output.write("违规信息-太阳城"+" http://"+line+"\n")
-                    if m:  #如果标题不为空 则真，否则为假
-                        output=open(result,'a')
-                        output.write(m.group(1)+" http://"+line+"\n")
-                        #print html;
-                    else:
-                        m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
-                        if m:
+                            output.write("违规信息-百家乐"+" "+req+"\n")
+                        elif "太阳城" in html:
                             output=open(result,'a')
-                            output.write(m.group(1)+" http://"+line+"\n")
+                            output.write("违规信息-太阳城"+" http://"+line+"\n")
+                        if m:  #如果标题不为空 则真，否则为假
+                            output=open(result,'a')
+                            output.write(m.group(1)+" "+req+"\n")
                             #print html;
                         else:
-                            output=open(result,'a')
-                            output.write("error"+" http://"+line+"\n")
+                            m=re.search(r'<title xmlns="">(.*)</title>', html, flags=re.I)
+                            if m:
+                                output=open(result,'a')
+                                output.write(m.group(1)+" "+req+"\n")
+                                #print html;
+                            else:
+                                output=open(result,'a')
+                                output.write("error"+" "+req+"\n")
 #插入旧版本的python爬虫(1.0)结束
 # 创建新线程
 thread1 = myThread(1, "self00")
