@@ -41,10 +41,10 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 else:
                     data = urllib.urlopen(req).read()
                     target =str(chardet.detect(data))
-                    print target
+                    #print target
                     bianma = ["ISO-8859-2","utf"]
                 if bianma[0] in target.lower() or bianma[1] in target.lower():
-                    print "Yes,It's utf-8"
+                    #print "Yes,It's utf-8"
                     html=html_1
                     if "百家乐" in html:
                         output=open(result,'a')
@@ -55,9 +55,9 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                     html=string.replace(html,'\r\n','');
                     html=string.replace(html,'\n','');
                     m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
-                    print m  #如果标题不为空 则真，否则为假
-                    if m:
-                        print m.group()
+                    #print m  #如果标题不为空 则真，否则为假
+                    #if m:
+                        #print m.group()
                     if m:
                         output=open(result,'a')
                         output.write(m.group(1)+" http://"+line+"\n")
@@ -72,13 +72,13 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                             output=open(result,'a')
                             output.write("error"+" http://"+line+"\n")
                 else :
-                    print "No utf8 "
+                    #print "No utf8 "
                     html = html_1.decode('gbk','ignore').encode('utf-8')
                     html=string.replace(html,'\r\n','');
                     html=string.replace(html,'\n','');
                     m=re.search(r'<title>(.*?)</title>', html, flags=re.I)
-                    if m:
-                        print m.group()
+                    #if m:
+                        #print m.group()
                     if "百家乐" in html:
                         output=open(result,'a')
                         output.write("违规信息-百家乐"+" http://"+line+"\n")
