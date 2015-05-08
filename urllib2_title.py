@@ -102,6 +102,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                             else:
                                 output=open(resultFile,'a')
                                 output.write("error"+" "+reqUrl+"\n")
+        print "进程"+str(self.threadID)+"结束"
         #插入旧版本的python爬虫(1.0)结束
 # 创建新线程
 thread1 = myThread(1, "self00")
