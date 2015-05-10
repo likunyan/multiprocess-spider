@@ -107,21 +107,12 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
                                 output.write("error"+" "+reqUrl+"\n")
         print "进程"+str(self.threadID)+"结束"
         #插入旧版本的python爬虫(1.0)结束
-# 创建新线程
-thread1 = myThread(1, "self00")
-thread2 = myThread(2, "self01")
-thread3 = myThread(3, "self02")
-thread4 = myThread(4, "self03")
-thread5 = myThread(5, "self04")
-thread6 = myThread(6, "self05")
-thread7 = myThread(7, "self06")
-thread8 = myThread(8, "self07")
-# 开启线程
-thread1.start()
-thread2.start()
-thread3.start()
-thread4.start()
-thread5.start()
-thread6.start()
-thread7.start()
-thread8.start()
+createVar = locals()
+listTemp = range(0,41)  # 40进程
+for i in enumerate(listTemp):
+    # 因为使用split -a 2 -d -l 168 urlFile self
+    # 所以文件名是self00,self01,......,self09,self10,self11,......
+    if i < 10:
+        myThread(i, "self0"+str(i)).start()
+    else:
+        myThread(i, "self"+str(i)).start()
