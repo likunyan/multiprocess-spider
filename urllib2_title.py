@@ -1,6 +1,6 @@
 #coding=utf-8
 #!/usr/bin/python
-#python爬虫1.1 beta 加入多进程 进程数量可以在后面自己添加下，暂时还没改好让使用者输入数字为多进程的数量
+#进程数量可以在后面自己修改下
 from urllib2 import Request, urlopen, URLError, HTTPError
 import chardet  # 编码转换用
 import sys
