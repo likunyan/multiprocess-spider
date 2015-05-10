@@ -34,7 +34,7 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
             except Exception, e:
                 output = open(resultFile, 'a')
                 output.write("url_Error "+str(e)+" "+reqUrl+"\n")
-            except:
+            except:  # beta版本代码
                 print "0"
             else:
                 try:  # 请求网址，超时时间60秒
@@ -43,7 +43,7 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
                       # 保存错误到文件中去
                     output = open(resultFile, 'a')
                     output.write("http_Error "+str(x)+" "+reqUrl+"\n")
-                except:
+                except:  # beta版本代码
                     print "1"
                 else:
                     coding = str(chardet.detect(html))
