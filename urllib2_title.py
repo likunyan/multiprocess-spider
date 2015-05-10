@@ -22,6 +22,7 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
         self.name = name
     def run(self):      # 把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
         #插入旧版本的python爬虫(1.0)开始 #修改了两处地方
+        print "进程"+str(self.threadID)+"开始"
         file = str(self.name)  # 转为string类型
         resultFile = self.name+"-result"  # 多(N)进程的执行结果保存到各自的result文件中去
         for line in open(file):  # 轮询self*文件中的网址
