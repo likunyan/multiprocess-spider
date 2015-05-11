@@ -1,8 +1,8 @@
 #Python网页爬虫
-* 两种进程:
-    ＊pool  //建议
-    ＊thread
-* 两种方式:
+* 两种多进程方式:
+    * pool  //建议
+    * thread
+* 两种请求网页方式:
     * urllib2，对应文urllib2_title.py
     * httplib2，对应文件httplib2_title.py  //尚未发布
 * 功能:
