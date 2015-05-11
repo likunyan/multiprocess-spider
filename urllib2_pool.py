@@ -104,7 +104,7 @@ def myPool(name):
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(40)  #同时运行的数目
-    for i in range(99):  #队列中数目
+    for i in range(99):  #队列中的数目
         if i < 10:
             p.apply_async(myPool, args=("self0"+str(i),))
         else:
