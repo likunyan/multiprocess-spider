@@ -31,7 +31,7 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
             reqUrl = "http://"+line  # 因为self*的域名是不带http://的，这边加下
             try:  # 试着...
                 response = urlopen(reqUrl)
-                #time.sleep(N)  #等待N(N值暂未测量)毫秒，以免Web服务器频繁挂掉连接
+                #time.sleep(N)  #等待N(N值暂未测量)秒，以免Web服务器频繁挂掉连接
             except Exception, e:
                 with open(resultFile, 'a') as output:
                     output.write("url_Error "+str(e)+" "+reqUrl+"\n")
