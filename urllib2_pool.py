@@ -14,7 +14,6 @@ import time
 from multiprocessing import Pool
 import os
 def myPool(name):
-        #插入旧版本的python爬虫(1.0)开始 #修改了两处地方
         print "进程"+name+"开始"
         # 引用文件和输出文件!
         file = name  # 转为string类型
@@ -100,7 +99,6 @@ def myPool(name):
                                  with open(resultFile, 'a') as output:
                                     output.write("error"+" "+reqUrl+"\n")
         print "进程"+name+"结束"
-        #插入旧版本的python爬虫(1.0)结束
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(40)  #同时运行的数目
