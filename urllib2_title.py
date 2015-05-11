@@ -108,7 +108,7 @@ class myThread (threading.Thread):  # 继承父类threading.Thread
         print "进程"+str(self.threadID)+"结束"
         #插入旧版本的python爬虫(1.0)结束
 createVar = locals()
-listTemp = range(0,41)  # 40进程
+listTemp = range(0,40)  # 40进程
 for i in enumerate(listTemp):
     # 因为使用split -a 2 -d -l 168 urlFile self
     # 所以文件名是self00,self01,......,self09,self10,self11,......
