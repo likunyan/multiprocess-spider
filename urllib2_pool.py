@@ -16,23 +16,23 @@ import time
 def myPool(source_file_name):
 	def myPoolmain(line):
 		line = line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
-		reqUrl = "http://"+line  # 因为self*的域名是不带http://的，这边加下
+		req_url = "http://"+line  # 因为self*的域名是不带http://的，这边加下
 		try:  # 试着...
-			response = urlopen(reqUrl)
+			response_of_req_url = urlopen(req_url)
 			#time.sleep(N)  #等待N(N值暂未测量)秒，以免Web服务器频繁挂掉连接
 		except Exception, e:
 			with open(result_file_name, 'a') as output:
-				output.write("url_Error "+str(e)+" "+reqUrl+"\n")
+				output.write("url_Error "+str(e)+" "+req_url+"\n")
 			return 0
 		except:  # beta版本代码
 			print "0"
 		else:
 			try:  # 请求网址，超时时间60秒
-				html = urllib2.urlopen(reqUrl, timeout=60).read()
+				html = urllib2.urlopen(req_url, timeout=60).read()
 			except Exception, x:
 				# 保存错误到文件中去
 				with open(result_file_name, 'a') as output:
-					output.write("http_Error "+str(x)+" "+reqUrl+"\n")
+					output.write("http_Error "+str(x)+" "+req_url+"\n")
 			except:  # beta版本代码
 				print "1"
 			else:
@@ -44,10 +44,10 @@ def myPool(source_file_name):
 					htmlIsutf8 = html
 					if "百家乐" in htmlIsutf8:
 						with open(result_file_name, 'a') as output:
-							output.write("违规信息-百家乐"+" "+reqUrl+"\n")
+							output.write("违规信息-百家乐"+" "+req_url+"\n")
 					elif "太阳城" in htmlIsutf8:
 						with open(result_file_name, 'a') as output:
-							output.write("违规信息-太阳城"+" "+reqUrl+"\n")
+							output.write("违规信息-太阳城"+" "+req_url+"\n")
 					# 因为有的标题是多行的，保存起来有问题，所以这边去掉一切换行
 					htmlIsutf8 = string.replace(htmlIsutf8, '\r\n', '');
 					htmlIsutf8 = string.replace(htmlIsutf8, '\n', '');
@@ -57,18 +57,18 @@ def myPool(source_file_name):
 						#print m.group()
 					if m:
 						with open(result_file_name, 'a') as output:
-							output.write(m.group(1)+" "+reqUrl+"\n")
+							output.write(m.group(1)+" "+req_url+"\n")
 						#print htmlIsutf8;
 					else:  # 特殊标题的标记
 						# <title xmlns=...><title> 个人用
 						m = re.search(r'<title xmlns="">(.*)</title>', htmlIsutf8, flags=re.I)
 						if m:
 							with open(result_file_name, 'a') as output:
-								output.write(m.group(1)+" "+reqUrl+"\n")
+								output.write(m.group(1)+" "+req_url+"\n")
 							#print htmlIsutf8;
 						else:
 							with open(result_file_name, 'a') as output:
-								output.write("error"+" "+reqUrl+"\n")
+								output.write("error"+" "+req_url+"\n")
 				else:
 					#print "No utf8 "
 					htmlNoutf8 = html.decode('gbk', 'ignore').encode('utf-8')
@@ -79,22 +79,22 @@ def myPool(source_file_name):
 						#print m.group()
 					if "百家乐" in htmlNoutf8:
 						with open(result_file_name, 'a') as output:
-							output.write("违规信息-百家乐"+" "+reqUrl+"\n")
+							output.write("违规信息-百家乐"+" "+req_url+"\n")
 					elif "太阳城" in htmlNoutf8:
 						with open(result_file_name, 'a') as output:
-							output.write("违规信息-太阳城"+" "+reqUrl+"\n")
+							output.write("违规信息-太阳城"+" "+req_url+"\n")
 					if m:  # 如果标题不为空 则真，否则为假
 						with open(result_file_name, 'a') as output:
-							output.write(m.group(1)+" "+reqUrl+"\n")
+							output.write(m.group(1)+" "+req_url+"\n")
 						# print htmlNoutf8;
 					else:
 						m = re.search(r'<title xmlns="">(.*)</title>', htmlNoutf8, flags = re.I)
 						if m:
 							with open(result_file_name, 'a') as output:
-								output.write(m.group(1)+" "+reqUrl+"\n")
+								output.write(m.group(1)+" "+req_url+"\n")
 						else:
 							with open(result_file_name, 'a') as output:
-								output.write("error"+" "+reqUrl+"\n")
+								output.write("error"+" "+req_url+"\n")
 	print "进程"+source_file_name+"开始"
 	# 以下两行引用文件和输出文件!
 	source_file = source_file_name # 这边定义下两行要打开的源文件
