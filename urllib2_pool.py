@@ -118,7 +118,7 @@ if __name__=='__main__':
 			elif i < 100: p.apply_async(myPool, args=("self00"+str(i),))
 			elif i < 1000: p.apply_async(myPool, args=("self0"+str(i),))
 			else: p.apply_async(myPool, args=("self"+str(i),)) # that is 1000 < i < 10000
-		else: print "tasklist number over 1W! # 队列数目超过1W"
+		else: print "tasklist number over 1W! # 队列数目超过1W!"
 	print 'Waiting for all subprocesses done...'
 	p.close()
 	p.join()
