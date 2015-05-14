@@ -17,7 +17,8 @@ def myPool(source_file_name):
     def myPoolmain(line):
         line = line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
         req_url = "http://"+line  # 因为self*的域名是不带http://的，这边加下
-        try: response_of_req_url = urlopen(req_url)
+        try:
+            response_of_req_url = urlopen(req_url)
         except Exception, e:
             with open(result_file_name, 'a') as output:
                 output.write("url_Error "+str(e)+" "+req_url+"\n")
@@ -29,7 +30,8 @@ def myPool(source_file_name):
                 # 保存错误到文件中去
                 with open(result_file_name, 'a') as output:
                     output.write("http_Error "+str(x)+" "+req_url+"\n")
-            except: print "1" # beta版本代码
+            except:
+                print "1" # beta版本代码
             else:
                 coding = str(chardet.detect(html))
                 #print coding
@@ -105,20 +107,31 @@ if __name__=='__main__':
     p = Pool(1)  # at the same time,running number # 同时运行的数目
     task_list_num = 1  # alignment number # 列队中的数目
     for i in range(task_list_num):
-        if task_list_num < 10: p.apply_async(myPool, args=("self"+str(i),))
+        if task_list_num < 10:
+            p.apply_async(myPool, args=("self"+str(i),))
         elif task_list_num < 100:
-            if i < 10: p.apply_async(myPool, args=("self0"+str(i),))
-            else: p.apply_async(myPool, args=("self"+str(i),)) # that is 10 < i < 100
+            if i < 10:
+                p.apply_async(myPool, args=("self0"+str(i),))
+            else:
+                p.apply_async(myPool, args=("self"+str(i),)) # that is 10 < i < 100
         elif task_list_num < 1000:
-            if i < 10: p.apply_async(myPool, args=("self00"+str(i),))
-            elif i < 100: p.apply_async(myPool, args=("self0"+str(i),))
-            else: p.apply_async(myPool, args=("self"+str(i),)) # that is 100 < i < 1000
+            if i < 10:
+                p.apply_async(myPool, args=("self00"+str(i),))
+            elif i < 100:
+                p.apply_async(myPool, args=("self0"+str(i),))
+            else:
+                p.apply_async(myPool, args=("self"+str(i),)) # that is 100 < i < 1000
         elif task_list_num < 10000:
-            if i < 10: p.apply_async(myPool, args=("self000"+str(i),))
-            elif i < 100: p.apply_async(myPool, args=("self00"+str(i),))
-            elif i < 1000: p.apply_async(myPool, args=("self0"+str(i),))
-            else: p.apply_async(myPool, args=("self"+str(i),)) # that is 1000 < i < 10000
-        else: print "tasklist number over 1W! # 队列数目超过1W"
+            if i < 10:
+                p.apply_async(myPool, args=("self000"+str(i),))
+            elif i < 100:
+                p.apply_async(myPool, args=("self00"+str(i),))
+            elif i < 1000:
+                p.apply_async(myPool, args=("self0"+str(i),))
+            else:
+                p.apply_async(myPool, args=("self"+str(i),)) # that is 1000 < i < 10000
+        else:
+            print "tasklist number over 1W! # 队列数目超过1W"
     print 'Waiting for all subprocesses done...'
     p.close()
     p.join()
