@@ -106,7 +106,7 @@ if __name__=='__main__':
     for i in range(taskListnum):  #队列中的数目
         if taskListnum < 10:
             p.apply_async(myPool, args=("self"+str(i),))
-        if taskListnum < 100:
+        elif taskListnum < 100:
             if i < 10:
                 p.apply_async(myPool, args=("self0"+str(i),))
             else:  # 即 10 < i < 100
