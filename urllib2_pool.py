@@ -107,7 +107,7 @@ if __name__=='__main__':
         if taskListnum < 100:
             if i < 10:
                 p.apply_async(myPool, args=("self0"+str(i),))
-            elif:  # 即 10 < i < 100
+            else:  # 即 10 < i < 100
                 p.apply_async(myPool, args=("self"+str(i),))
         elif taskListnum < 1000:
             if i < 10:
