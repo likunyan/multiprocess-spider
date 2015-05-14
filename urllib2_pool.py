@@ -104,7 +104,7 @@ if __name__=='__main__':
     p = Pool(40)  #同时运行的数目
     taskListnum = 1000
     for i in range(taskListnum):  #队列中的数目
-        if taskListnum < 100
+        if taskListnum < 100:
             if i < 10:
                 p.apply_async(myPool, args=("self0"+str(i),))
             elif:  # 即 10 < i < 100
