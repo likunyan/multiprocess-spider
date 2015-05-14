@@ -24,17 +24,14 @@ def myPool(source_file_name):
 			with open(result_file_name, 'a') as output:
 				output.write("url_Error "+str(e)+" "+req_url+"\n")
 			return 0
-		except:  # beta版本代码
-			print "0"
+		except: print "0" # beta版本代码	
 		else:
-			try:  # 请求网址，超时时间60秒
-				html = urllib2.urlopen(req_url, timeout=60).read()
+			try: html = urllib2.urlopen(req_url, timeout=60).read() # 请求网址，超时时间60秒
 			except Exception, x:
 				# 保存错误到文件中去
 				with open(result_file_name, 'a') as output:
 					output.write("http_Error "+str(x)+" "+req_url+"\n")
-			except:  # beta版本代码
-				print "1"
+			except: print "1" # beta版本代码
 			else:
 				coding = str(chardet.detect(html))
 				#print coding
@@ -102,39 +99,28 @@ def myPool(source_file_name):
 	for line in open(source_file):  # 轮询源文件中的网址
 		host_value = line.split() # 用空格分割字符串，并保存到列表
 		status = myPoolmain(host_value[0])
-		if status == 0: # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
-			myPoolmain(host_value[1])
+		# 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
+		if status == 0:  myPoolmain(host_value[1])
 	print "进程"+source_file_name+"结束"
 if __name__=='__main__':
 	print 'Parent process %s.' % os.getpid()
-	p = Pool(2)  # at the same time,running number # 同时运行的数目
-	task_list_num = 2  # alignment number # 列队中的数目
+	p = Pool(1)  # at the same time,running number # 同时运行的数目
+	task_list_num = 1  # alignment number # 列队中的数目
 	for i in range(task_list_num):
-		if task_list_num < 10:
-			p.apply_async(myPool, args=("self"+str(i),))
+		if task_list_num < 10: p.apply_async(myPool, args=("self"+str(i),))
 		elif task_list_num < 100:
-			if i < 10:
-				p.apply_async(myPool, args=("self0"+str(i),))
-			else:  # that is 10 < i < 100
-				p.apply_async(myPool, args=("self"+str(i),))
+			if i < 10: p.apply_async(myPool, args=("self0"+str(i),))
+			else: p.apply_async(myPool, args=("self"+str(i),)) # that is 10 < i < 100
 		elif task_list_num < 1000:
-			if i < 10:
-				p.apply_async(myPool, args=("self00"+str(i),))
-			elif i < 100:
-				p.apply_async(myPool, args=("self0"+str(i),))
-			else:  # that is 100 < i < 1000
-				p.apply_async(myPool, args=("self"+str(i),))
+			if i < 10: p.apply_async(myPool, args=("self00"+str(i),))
+			elif i < 100: p.apply_async(myPool, args=("self0"+str(i),))
+			else: p.apply_async(myPool, args=("self"+str(i),)) # that is 100 < i < 1000
 		elif task_list_num < 10000:
-			if i < 10:
-				p.apply_async(myPool, args=("self000"+str(i),))
-			elif i < 100:
-				p.apply_async(myPool, args=("self00"+str(i),))
-			elif i < 1000:
-				p.apply_async(myPool, args=("self0"+str(i),))
-			else:   # that is 1000 < i < 10000
-				p.apply_async(myPool, args=("self"+str(i),))
-		else:
-			print "tasklist number over 1W! # 队列数目超过1W"
+			if i < 10: p.apply_async(myPool, args=("self000"+str(i),))
+			elif i < 100: p.apply_async(myPool, args=("self00"+str(i),))
+			elif i < 1000: p.apply_async(myPool, args=("self0"+str(i),))
+			else: p.apply_async(myPool, args=("self"+str(i),)) # that is 1000 < i < 10000
+		else: print "tasklist number over 1W! # 队列数目超过1W"
 	print 'Waiting for all subprocesses done...'
 	p.close()
 	p.join()
