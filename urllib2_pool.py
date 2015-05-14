@@ -108,23 +108,23 @@ def myPool(source_file_name):
 if __name__=='__main__':
 	print 'Parent process %s.' % os.getpid()
 	p = Pool(2)  # at the same time,running number # 同时运行的数目
-	taskListnum = 2  # alignment number # 列队中的数目
-	for i in range(taskListnum):
-		if taskListnum < 10:
+	task_list_num = 2  # alignment number # 列队中的数目
+	for i in range(task_list_num):
+		if task_list_num < 10:
 			p.apply_async(myPool, args=("self"+str(i),))
-		elif taskListnum < 100:
+		elif task_list_num < 100:
 			if i < 10:
 				p.apply_async(myPool, args=("self0"+str(i),))
 			else:  # that is 10 < i < 100
 				p.apply_async(myPool, args=("self"+str(i),))
-		elif taskListnum < 1000:
+		elif task_list_num < 1000:
 			if i < 10:
 				p.apply_async(myPool, args=("self00"+str(i),))
 			elif i < 100:
 				p.apply_async(myPool, args=("self0"+str(i),))
 			else:  # that is 100 < i < 1000
 				p.apply_async(myPool, args=("self"+str(i),))
-		elif taskListnum < 10000:
+		elif task_list_num < 10000:
 			if i < 10:
 				p.apply_async(myPool, args=("self000"+str(i),))
 			elif i < 100:
