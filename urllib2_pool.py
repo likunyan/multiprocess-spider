@@ -17,6 +17,7 @@ def myPool(source_file_name):
     def myPoolmain(line):
         line = line.replace("\n", "")        # 替换上一步中，轮询到的每行结果中的换行字符为空白
         req_url = "http://"+line        # 因为self*的域名是不带http://的，这边加下
+        
         try:
             response_of_req_url = urlopen(req_url)
         except Exception, e:
@@ -92,20 +93,25 @@ def myPool(source_file_name):
                         else:
                             with open(result_file_name, 'a') as output:
                                 output.write("error"+" "+req_url+"\n")
+                                
     print "进程"+source_file_name+"开始"
     # 以下两行引用文件和输出文件!
     source_file = source_file_name        # 这边定义下两行要打开的源文件
     result_file_name = source_file_name+"-result"  # 多(N)进程的执行结果保存到各自的result结果文件中去
+    
     for line in open(source_file):        # 轮询源文件中的网址
         host_value = line.split()        # 用空格分割字符串，并保存到列表
         status = myPoolmain(host_value[0])
         # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
         if status == 0:  myPoolmain(host_value[1])
+        
     print "进程"+source_file_name+"结束"
+    
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(1)        # at the same time,running number # 同时运行的数目
     task_list_num = 1        # alignment number # 列队中的数目
+    
     for i in range(task_list_num):
         if task_list_num < 10:
             p.apply_async(myPool, args=("self"+str(i),))
@@ -132,6 +138,7 @@ if __name__=='__main__':
                 p.apply_async(myPool, args=("self"+str(i),))        # that is 1000 < i < 10000
         else:
             print "tasklist number over 1W! # 队列数目超过1W"
+            
     print 'Waiting for all subprocesses done...'
     p.close()
     p.join()
