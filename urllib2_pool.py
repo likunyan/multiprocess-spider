@@ -100,10 +100,10 @@ def myPool(source_file_name):
 	source_file = source_file_name # 这边定义下两行要打开的源文件
 	result_file_name = source_file_name+"-result"  # 多(N)进程的执行结果保存到各自的result结果文件中去
 	for line in open(source_file):  # 轮询源文件中的网址
-		hostValue = line.split() # 用空格分割字符串，并保存到列表
-		status = myPoolmain(hostValue[0])
+		host_value = line.split() # 用空格分割字符串，并保存到列表
+		status = myPoolmain(host_value[0])
 		if status == 0: # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
-			myPoolmain(hostValue[1])
+			myPoolmain(host_value[1])
 	print "进程"+source_file_name+"结束"
 if __name__=='__main__':
 	print 'Parent process %s.' % os.getpid()
