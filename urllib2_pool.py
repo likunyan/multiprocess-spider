@@ -91,12 +91,12 @@ def myPool(name):
                                 output.write(m.group(1)+" "+reqUrl+"\n")
                             # print htmlNoutf8;
                         else:
-                            m = re.search(r'<title xmlns="">(.*)</title>', htmlNoutf8, flags=re.I)
+                            m = re.search(r'<title xmlns="">(.*)</title>', htmlNoutf8, flags = re.I)
                             if m:
                                 with open(resultFile, 'a') as output:
                                     output.write(m.group(1)+" "+reqUrl+"\n")
                             else:
-                                 with open(resultFile, 'a') as output:
+                                with open(resultFile, 'a') as output:
                                     output.write("error"+" "+reqUrl+"\n")
         print "进程"+name+"结束"
 if __name__=='__main__':
@@ -116,14 +116,14 @@ if __name__=='__main__':
                 p.apply_async(myPool, args=("self00"+str(i),))
             elif i < 100:
                 p.apply_async(myPool, args=("self0"+str(i),))
-            else :  # that is 100 < i < 1000
+            else:  # that is 100 < i < 1000
                 p.apply_async(myPool, args=("self"+str(i),))
         elif taskListnum < 10000:
             if i < 10:
                 p.apply_async(myPool, args=("self000"+str(i),))
             elif i < 100:
                 p.apply_async(myPool, args=("self00"+str(i),))
-            elif i < 1000: 
+            elif i < 1000:
                 p.apply_async(myPool, args=("self0"+str(i),))
             else:   # that is 1000 < i < 10000
                 p.apply_async(myPool, args=("self"+str(i),))
