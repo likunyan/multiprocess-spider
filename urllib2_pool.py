@@ -1,22 +1,22 @@
 #coding=utf-8
 #!/usr/bin/python
-#进程数量可以在后面自己修改下
+#进程数量、任务数这两个可以在末尾代码修改下
 from urllib2 import Request, urlopen, URLError, HTTPError
+from multiprocessing import Pool
+import os
 import chardet  # 编码转换用
 import sys
 import string
 import urllib2
-#import urllib  #使用urllib2，这个没有使用到
 import re  # 正则
 import time
 # import socket
 # urllib2.socket.setdefaulttimeout(60) # Python2.6以前的版本
-from multiprocessing import Pool
-import os
+
 def myPool(name):
         print "进程"+name+"开始"
-        # 引用文件和输出文件!
-        file = name  # 转为string类型
+        # 以下两行引用文件和输出文件!
+        file = name
         resultFile = name+"-result"  # 多(N)进程的执行结果保存到各自的result文件中去
         for line in open(file):  # 轮询self*文件中的网址
             line = line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
@@ -63,6 +63,7 @@ def myPool(name):
                                 output.write(m.group(1)+" "+reqUrl+"\n")
                             #print htmlIsutf8;
                         else:  # 特殊标题的标记
+                            # <title xmlns=...><title> 个人用
                             m = re.search(r'<title xmlns="">(.*)</title>', htmlIsutf8, flags=re.I)
                             if m:
                                 with open(resultFile, 'a') as output:
@@ -94,7 +95,6 @@ def myPool(name):
                             if m:
                                 with open(resultFile, 'a') as output:
                                     output.write(m.group(1)+" "+reqUrl+"\n")
-                                #print htmlNoutf8;
                             else:
                                  with open(resultFile, 'a') as output:
                                     output.write("error"+" "+reqUrl+"\n")
