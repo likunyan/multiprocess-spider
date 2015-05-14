@@ -102,11 +102,31 @@ def myPool(name):
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(40)  #同时运行的数目
-    for i in range(99):  #队列中的数目
-        if i < 10:
-            p.apply_async(myPool, args=("self0"+str(i),))
+    taskListnum = 1000
+    for i in range(taskListnum):  #队列中的数目
+        if taskListnum < 100
+            if i < 10:
+                p.apply_async(myPool, args=("self0"+str(i),))
+            elif:  # 即 10 < i < 100
+                p.apply_async(myPool, args=("self"+str(i),))
+        elif taskListnum < 1000:
+            if i < 10:
+                p.apply_async(myPool, args=("self00"+str(i),))
+            elif i < 100:
+                p.apply_async(myPool, args=("self0"+str(i),))
+            else :  # 即 100 < i < 1000
+                p.apply_async(myPool, args=("self"+str(i),))
+        elif taskListnum < 10000:
+            if i < 10:
+                p.apply_async(myPool, args=("self000"+str(i),))
+            elif i < 100:
+                p.apply_async(myPool, args=("self00"+str(i),))
+            elif i < 1000: 
+                p.apply_async(myPool, args=("self0"+str(i),))
+            else:   # 即 1000 < i < 10000
+                p.apply_async(myPool, args=("self"+str(i),))
         else:
-            p.apply_async(myPool, args=("self"+str(i),))
+            print "任务数超过1W!"
     print 'Waiting for all subprocesses done...'
     p.close()
     p.join()
