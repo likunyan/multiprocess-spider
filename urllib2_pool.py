@@ -101,9 +101,11 @@ def myPool(name):
         print "进程"+name+"结束"
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
-    p = Pool(40)  #同时运行的数目
-    taskListnum = 1000
+    p = Pool(1)  #同时运行的数目
+    taskListnum = 1
     for i in range(taskListnum):  #队列中的数目
+        if taskListnum < 10:
+            p.apply_async(myPool, args=("self"+str(i),))
         if taskListnum < 100:
             if i < 10:
                 p.apply_async(myPool, args=("self0"+str(i),))
