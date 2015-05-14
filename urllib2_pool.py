@@ -17,9 +17,7 @@ def myPool(source_file_name):
 	def myPoolmain(line):
 		line = line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
 		req_url = "http://"+line  # 因为self*的域名是不带http://的，这边加下
-		try:  # 试着...
-			response_of_req_url = urlopen(req_url)
-			#time.sleep(N)  #等待N(N值暂未测量)秒，以免Web服务器频繁挂掉连接
+		try: response_of_req_url = urlopen(req_url)
 		except Exception, e:
 			with open(result_file_name, 'a') as output:
 				output.write("url_Error "+str(e)+" "+req_url+"\n")
