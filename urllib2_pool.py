@@ -112,7 +112,7 @@ if __name__=='__main__':
     p = Pool(1)        # at the same time,running number # 同时运行的数目
     task_list_num = 1        # alignment number # 列队中的数目
     
-    for i in range(task_list_num):
+    for i in xrange(task_list_num):
         if task_list_num < 10:
             p.apply_async(myPool, args=("self"+str(i),))
         elif task_list_num < 100:
