@@ -15,6 +15,7 @@ number_of_at_the_same_time_the_process = 1        #同时进程数
 number_of_tasks = 1        # alignment number # 列队中的数目
 
 def myPoolmain(line):
+    
     line = line.replace("\n", "")        # 替换上一步中，轮询到的每行结果中的换行字符为空白
     req_url = "http://"+line        # 因为self*的域名是不带http://的，这边加下
 
@@ -95,17 +96,15 @@ def myPoolmain(line):
                             output.write("error"+" "+req_url+"\n")
 
 def myPool(source_file_name):
+    
     source_file = source_file_name        # 这边定义下两行要打开的源文件
     result_file_name = source_file_name+"-result"  # 多(N)进程的执行结果保存到各自的result结果文件中去
-
-    
                                 
     with open("log", 'a') as output:
         output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
     print "进程"+source_file_name+"开始"
     # 以下两行引用文件和输出文件!
 
-    
     for line in open(source_file):        # 轮询源文件中的网址
         host_value = line.split()        # 用空格分割字符串，并保存到列表
         status = myPoolmain(host_value[0])
