@@ -51,14 +51,12 @@ def open_text_file(source_text_file):
                     if m:
                         with open(result_text_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
-                        #print source_is_utf8;
                     else:  # 特殊标题的标记
                         # <title xmlns=...><title> 个人用
                         m = re.search(r'<title xmlns="">(.*)</title>', source_is_utf8, flags=re.I)
                         if m:
                             with open(result_text_file, 'a') as output:
                                 output.write(m.group(1)+" "+req_url+"\n")
-                            #print source_is_utf8;
                         else:
                             with open(result_text_file, 'a') as output:
                                 output.write("error"+" "+req_url+"\n")
@@ -90,14 +88,14 @@ def open_text_file(source_text_file):
         output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
     print "进程"+source_text_file+"开始"
     
-    # 以下两行引用文件和输出文件!
-    result_text_file = source_text_file+"-result"  # 多(N)进程的执行结果保存到各自的result结果文件中去
+    result_text_file = source_text_file+"-result"  # 执行结果以源文件名+result形式保存
     
     for text_line in open(source_text_file):  # 轮询源文件中的网址
         host_value = text_line.split() # 用空格分割字符串，并保存到列表
         status = spider(host_value[0])
         if status == 0: # 如果source_text_file这个文本中第一列的网址能够访问的话，执行第二列中的网址
             spider(host_value[1])
+            
     with open("log", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")   
     print "进程"+source_text_file+"结束"
@@ -106,7 +104,7 @@ def open_text_file(source_text_file):
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(number_of_at_the_same_time_the_process)  # at the same time,running number # 同时运行的数目
-    number_of_tasks = 1  # alignment number # 列队中的数目
+    
     for i in xrange(number_of_tasks):
         if number_of_tasks < 10:
             p.apply_async(open_text_file, args=("self"+str(i),))
