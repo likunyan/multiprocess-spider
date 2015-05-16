@@ -34,7 +34,6 @@ def open_text_file(source_text_file):
                     output.write("http_Error "+str(x)+" "+req_url+"\n")
             else:
                 coding = str(chardet.detect(html_source))
-                #print coding
                 utf8 = ["ISO-8859-2", "utf"]
                 if utf8[0] in coding.lower() or utf8[1] in coding.lower():
                     source_is_utf8 = html_source
@@ -78,7 +77,6 @@ def open_text_file(source_text_file):
                     if m:  # 如果标题不为空 则真，否则为假
                         with open(result_text_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
-                        # print source_no_utf8;
                     else:
                         m = re.search(r'<title xmlns="">(.*)</title>', source_no_utf8, flags = re.I)
                         if m:
@@ -110,7 +108,7 @@ if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(number_of_at_the_same_time_the_process)  # at the same time,running number # 同时运行的数目
     number_of_tasks = 1  # alignment number # 列队中的数目
-    for i in range(number_of_tasks):
+    for i in xrange(number_of_tasks):
         if number_of_tasks < 10:
             p.apply_async(open_text_file, args=("self"+str(i),))
         elif number_of_tasks < 100:
