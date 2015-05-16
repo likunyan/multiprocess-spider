@@ -6,7 +6,6 @@ from multiprocessing import Pool
 import os
 import chardet        # 编码转换用
 import sys
-import string
 import urllib2
 import re        # 正则
 import time
@@ -94,6 +93,8 @@ def myPool(source_file_name):
                             with open(result_file_name, 'a') as output:
                                 output.write("error"+" "+req_url+"\n")
                                 
+    with open("log", 'a') as output:
+        output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
     print "进程"+source_file_name+"开始"
     # 以下两行引用文件和输出文件!
     source_file = source_file_name        # 这边定义下两行要打开的源文件
@@ -104,7 +105,8 @@ def myPool(source_file_name):
         status = myPoolmain(host_value[0])
         # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
         if status == 0:  myPoolmain(host_value[1])
-        
+    with open("log", 'a') as output:
+        output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")    
     print "进程"+source_file_name+"结束"
     
 if __name__=='__main__':
