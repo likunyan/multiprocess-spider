@@ -1,5 +1,8 @@
 #coding=utf-8
 #!/usr/bin/python
+'''
+by 小李世界 lky216@gmail.com
+'''
 from urllib2 import Request, urlopen, URLError, HTTPError
 from multiprocessing import Pool
 import os
