@@ -26,66 +26,61 @@ def open_text_file(source_text_file):
             with open(result_text_file, 'a') as output:
                 output.write("url_Error "+str(e)+" "+req_url+"\n")
             return 0
-        except:  # beta版本代码
-            print "0"
         else:
             try:  # 请求网址
-                html = urllib2.urlopen(req_url, timeout=60).read()
+                html_source = urllib2.urlopen(req_url, timeout=60).read()
             except Exception, x:
-                # 保存错误到文件中去
                 with open(result_text_file, 'a') as output:
                     output.write("http_Error "+str(x)+" "+req_url+"\n")
-            except:  # beta版本代码
-                print "1"
             else:
-                coding = str(chardet.detect(html))
+                coding = str(chardet.detect(html_source))
                 #print coding
-                isUTF8 = ["ISO-8859-2", "utf"]
-                if isUTF8[0] in coding.lower() or isUTF8[1] in coding.lower():
-                    htmlIsutf8 = html
-                    if "百家乐" in htmlIsutf8:
+                utf8 = ["ISO-8859-2", "utf"]
+                if utf8[0] in coding.lower() or utf8[1] in coding.lower():
+                    source_is_utf8 = html_source
+                    if "百家乐" in source_is_utf8:
                         with open(result_text_file, 'a') as output:
                             output.write("违规信息-百家乐"+" "+req_url+"\n")
-                    elif "太阳城" in htmlIsutf8:
+                    elif "太阳城" in source_is_utf8:
                         with open(result_text_file, 'a') as output:
                             output.write("违规信息-太阳城"+" "+req_url+"\n")
                     # 因为有的标题是多行的，保存起来有问题，所以这边去掉一切换行
-                    htmlIsutf8 = string.replace(htmlIsutf8, '\r\n', '');
-                    htmlIsutf8 = string.replace(htmlIsutf8, '\n', '');
-                    m = re.search(r'<title>(.*?)</title>', htmlIsutf8, flags=re.I)
+                    source_is_utf8 = string.replace(source_is_utf8, '\r\n', '');
+                    source_is_utf8 = string.replace(source_is_utf8, '\n', '');
+                    m = re.search(r'<title>(.*?)</title>', source_is_utf8, flags=re.I)
                     #if m: # 如果标题不为空 则真，否则为假
                         #print m.group()
                     if m:
                         with open(result_text_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
-                        #print htmlIsutf8;
+                        #print source_is_utf8;
                     else:  # 特殊标题的标记
                         # <title xmlns=...><title> 个人用
-                        m = re.search(r'<title xmlns="">(.*)</title>', htmlIsutf8, flags=re.I)
+                        m = re.search(r'<title xmlns="">(.*)</title>', source_is_utf8, flags=re.I)
                         if m:
                             with open(result_text_file, 'a') as output:
                                 output.write(m.group(1)+" "+req_url+"\n")
-                            #print htmlIsutf8;
+                            #print source_is_utf8;
                         else:
                             with open(result_text_file, 'a') as output:
                                 output.write("error"+" "+req_url+"\n")
                 else:
-                    htmlNoutf8 = html.decode('gbk', 'ignore').encode('utf-8')
-                    htmlNoutf8 = string.replace(htmlNoutf8, '\r\n', '');
-                    htmlNoutf8 = string.replace(htmlNoutf8, '\n', '');
-                    m = re.search(r'<title>(.*?)</title>', htmlNoutf8, flags=re.I)
-                    if "百家乐" in htmlNoutf8:
+                    source_no_utf8 = html_source.decode('gbk', 'ignore').encode('utf-8')
+                    source_no_utf8 = string.replace(source_no_utf8, '\r\n', '');
+                    source_no_utf8 = string.replace(source_no_utf8, '\n', '');
+                    m = re.search(r'<title>(.*?)</title>', source_no_utf8, flags=re.I)
+                    if "百家乐" in source_no_utf8:
                         with open(result_text_file, 'a') as output:
                             output.write("违规信息-百家乐"+" "+req_url+"\n")
-                    elif "太阳城" in htmlNoutf8:
+                    elif "太阳城" in source_no_utf8:
                         with open(result_text_file, 'a') as output:
                             output.write("违规信息-太阳城"+" "+req_url+"\n")
                     if m:  # 如果标题不为空 则真，否则为假
                         with open(result_text_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
-                        # print htmlNoutf8;
+                        # print source_no_utf8;
                     else:
-                        m = re.search(r'<title xmlns="">(.*)</title>', htmlNoutf8, flags = re.I)
+                        m = re.search(r'<title xmlns="">(.*)</title>', source_no_utf8, flags = re.I)
                         if m:
                             with open(result_text_file, 'a') as output:
                                 output.write(m.group(1)+" "+req_url+"\n")
