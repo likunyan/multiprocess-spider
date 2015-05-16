@@ -26,15 +26,15 @@ def open_file(source_file_name):
 
     for line in open(source_file):        # 轮询源文件中的网址
         host_value = line.split()        # 用空格分割字符串，并保存到列表
-        status = crawler(host_value[0])
+        status = spider(host_value[0])
         # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
-        if status == 0:  crawler(host_value[1])
+        if status == 0:  spider(host_value[1])
     with open("log", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")    
     print "进程"+source_file_name+"结束"
 
 
-def crawler(line):
+def spider(line):
     
     line = line.replace("\n", "")        # 替换上一步中，轮询到的每行结果中的换行字符为空白
     req_url = "http://"+line        # 因为self*的域名是不带http://的，这边加下
