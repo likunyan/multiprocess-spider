@@ -19,15 +19,14 @@ def open_text_file(source_text_file):
     def spider(text_line):
         text_line = text_line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
         req_url = "http://"+text_line  # 因为self*的域名是不带http://的，这边加下
-        try:  # 试着...
-            response_of_req_url = urlopen(req_url)
-            #time.sleep(N)  #等待N(N值暂未测量)秒，以免Web服务器频繁挂掉连接
+        try:
+            urlopen(req_url)
         except Exception, e:
             with open(result_text_file, 'a') as output:
                 output.write("url_Error "+str(e)+" "+req_url+"\n")
             return 0
         else:
-            try:  # 请求网址
+            try:
                 html_source = urllib2.urlopen(req_url, timeout=60).read()
             except Exception, x:
                 with open(result_text_file, 'a') as output:
