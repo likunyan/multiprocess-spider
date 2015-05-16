@@ -142,5 +142,5 @@ if __name__=='__main__':
     print 'Waiting for all subprocesses done...'
     p.close()
     p.join()
-    os.system("amh mysql start")
+    os.system("amh mysql start")        #怕mysql挂掉
     print 'All subprocesses done.'
