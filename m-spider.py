@@ -14,24 +14,23 @@ import time
 number_of_at_the_same_time_the_process = 1        #同时进程数
 number_of_tasks = 1        # alignment number # 列队中的数目
 
-def open_file(source_file_name):
+def open_file(source_file):
 
-    source_file = source_file_name        # 这边定义要打开的源文件
-    result_file_name = source_file_name+"-result"  # 执行结果以源文件名+result形式保存
+    result_file = source_file+"-result"  # 执行结果以源文件名+result形式保存
                                 
     with open("log", 'a') as output:
         output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
-    print "进程"+source_file_name+"开始"
+    print "进程"+source_file+"开始"
     # 以下两行引用文件和输出文件!
 
     for text_line in open(source_file):        # 轮询源文件中的网址
         host_value = text_line.split()        # 用空格分割字符串
         status = spider(host_value[0])
-        # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
+        # 如果source_file这个文本中第一列的网址能够访问的话，执行第二列中的网址
         if status == 0:  spider(host_value[1])
     with open("log", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")    
-    print "进程"+source_file_name+"结束"
+    print "进程"+source_file+"结束"
 
 
 def spider(text_line):
@@ -42,14 +41,14 @@ def spider(text_line):
     try:
         response_of_req_url = urlopen(req_url)
     except Exception, e:
-        with open(result_file_name, 'a') as output:
+        with open(result_file, 'a') as output:
             output.write("url_Error "+str(e)+" "+req_url+"\n")
         return 0
     except: print "0"        # pass
     else:
         try: html = urllib2.urlopen(req_url, timeout=60).read()        # 请求网址
         except Exception, x:
-            with open(result_file_name, 'a') as output:
+            with open(result_file, 'a') as output:
                 output.write("http_Error "+str(x)+" "+req_url+"\n")
         except:
             print "1"        # pass
@@ -59,27 +58,27 @@ def spider(text_line):
             if isUTF8[0] in coding.lower() or isUTF8[1] in coding.lower():
                 htmlIsutf8 = html
                 if "百家乐" in htmlIsutf8:
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write("违规信息-百家乐"+" "+req_url+"\n")
                 elif "太阳城" in htmlIsutf8:
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write("违规信息-太阳城"+" "+req_url+"\n")
                 # 因为有的标题是多行的，保存起来有问题，所以这边去掉一切换行
                 htmlIsutf8 = string.replace(htmlIsutf8, '\r\n', '');
                 htmlIsutf8 = string.replace(htmlIsutf8, '\n', '');
                 m = re.search(r'<title>(.*?)</title>', htmlIsutf8, flags=re.I)
                 if m:        #如果标题不为空 则真，否则为假
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write(m.group(1)+" "+req_url+"\n")
                     #print m.group()  # 调试用
                 else:  # 特殊标题的标记
                     # <title xmlns=...><title> 个人用
                     m = re.search(r'<title xmlns="">(.*)</title>', htmlIsutf8, flags=re.I)
                     if m:
-                        with open(result_file_name, 'a') as output:
+                        with open(result_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
                     else:
-                        with open(result_file_name, 'a') as output:
+                        with open(result_file, 'a') as output:
                             output.write("error"+" "+req_url+"\n")
             else:
                 htmlNoutf8 = html.decode('gbk', 'ignore').encode('utf-8')
@@ -87,21 +86,21 @@ def spider(text_line):
                 htmlNoutf8 = string.replace(htmlNoutf8, '\n', '');
                 m = re.search(r'<title>(.*?)</title>', htmlNoutf8, flags=re.I)
                 if "百家乐" in htmlNoutf8:
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write("违规信息-百家乐"+" "+req_url+"\n")
                 elif "太阳城" in htmlNoutf8:
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write("违规信息-太阳城"+" "+req_url+"\n")
                 if m:
-                    with open(result_file_name, 'a') as output:
+                    with open(result_file, 'a') as output:
                         output.write(m.group(1)+" "+req_url+"\n")
                 else:
                     m = re.search(r'<title xmlns="">(.*)</title>', htmlNoutf8, flags = re.I)
                     if m:
-                        with open(result_file_name, 'a') as output:
+                        with open(result_file, 'a') as output:
                             output.write(m.group(1)+" "+req_url+"\n")
                     else:
-                        with open(result_file_name, 'a') as output:
+                        with open(result_file, 'a') as output:
                             output.write("error"+" "+req_url+"\n")
                             
     
