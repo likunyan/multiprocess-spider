@@ -14,7 +14,7 @@ import time
 number_of_at_the_same_time_the_process = 1        #同时进程数
 number_of_tasks = 1        # alignment number # 列队中的数目
 
-def myPoolmain(line):
+def crawler(line):
     
     line = line.replace("\n", "")        # 替换上一步中，轮询到的每行结果中的换行字符为空白
     req_url = "http://"+line        # 因为self*的域名是不带http://的，这边加下
@@ -95,7 +95,7 @@ def myPoolmain(line):
                         with open(result_file_name, 'a') as output:
                             output.write("error"+" "+req_url+"\n")
 
-def myPool(source_file_name):
+def open_file(source_file_name):
     
     source_file = source_file_name        # 这边定义下两行要打开的源文件
     result_file_name = source_file_name+"-result"  # 多(N)进程的执行结果保存到各自的result结果文件中去
@@ -107,9 +107,9 @@ def myPool(source_file_name):
 
     for line in open(source_file):        # 轮询源文件中的网址
         host_value = line.split()        # 用空格分割字符串，并保存到列表
-        status = myPoolmain(host_value[0])
+        status = crawler(host_value[0])
         # 如果source_file_name这个文本中第一列的网址能够访问的话，执行第二列中的网址
-        if status == 0:  myPoolmain(host_value[1])
+        if status == 0:  crawler(host_value[1])
     with open("log", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")    
     print "进程"+source_file_name+"结束"
@@ -119,28 +119,28 @@ if __name__=='__main__':
     p = Pool(number_of_at_the_same_time_the_process)
     for i in xrange(number_of_tasks):
         if number_of_tasks < 10:
-            p.apply_async(myPool, args=("self"+str(i),))
+            p.apply_async(open_file, args=("self"+str(i),))
         elif number_of_tasks < 100:
             if i < 10: 
-                p.apply_async(myPool, args=("self0"+str(i),))
+                p.apply_async(open_file, args=("self0"+str(i),))
             else:
-                p.apply_async(myPool, args=("self"+str(i),))        # that is 10 < i < 100
+                p.apply_async(open_file, args=("self"+str(i),))        # that is 10 < i < 100
         elif number_of_tasks < 1000:
             if i < 10:
-                p.apply_async(myPool, args=("self00"+str(i),))
+                p.apply_async(open_file, args=("self00"+str(i),))
             elif i < 100:
-                p.apply_async(myPool, args=("self0"+str(i),))
+                p.apply_async(open_file, args=("self0"+str(i),))
             else:
-                p.apply_async(myPool, args=("self"+str(i),))        # that is 100 < i < 1000
+                p.apply_async(open_file, args=("self"+str(i),))        # that is 100 < i < 1000
         elif number_of_tasks < 10000:
             if i < 10:
-                p.apply_async(myPool, args=("self000"+str(i),))
+                p.apply_async(open_file, args=("self000"+str(i),))
             elif i < 100:
-                p.apply_async(myPool, args=("self00"+str(i),))
+                p.apply_async(open_file, args=("self00"+str(i),))
             elif i < 1000:
-                p.apply_async(myPool, args=("self0"+str(i),))
+                p.apply_async(open_file, args=("self0"+str(i),))
             else:
-                p.apply_async(myPool, args=("self"+str(i),))        # that is 1000 < i < 10000
+                p.apply_async(open_file, args=("self"+str(i),))        # that is 1000 < i < 10000
         else:
             print "tasklist number over 1W! # 队列数目超过1W"
             
