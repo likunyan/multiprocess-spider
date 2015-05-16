@@ -18,7 +18,7 @@ number_of_tasks = 1        # alignment number # 列队中的数目
 def open_text_file(source_text_file):
     def spider(text_line):
         text_line = text_line.replace("\n", "")  # 替换上一步中，轮询到的每行结果中的换行字符为空白
-        req_url = "http://"+text_line  # 因为self*的域名是不带http://的，这边加下
+        req_url = "http://"+text_line  # 因为source_text_file的域名是不带http://的，这边加下
         try:
             urlopen(req_url)
         except Exception, e:
