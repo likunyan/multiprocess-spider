@@ -102,8 +102,9 @@ def open_text_file(source_text_file):
     for text_line in open(source_text_file):  # 轮询源文件中的网址
         host_value = text_line.split() # 用空格分割字符串，并保存到列表
         status = spider(host_value[0])
-        if status == 0: # 如果source_text_file这个文本中第一列的网址能够访问的话，执行第二列中的网址
-            spider(host_value[1])
+        if host_value[1]:
+            if status == 0: # 如果source_text_file这个文本中第一列的网址能够访问的话，执行第二列中的网址
+                spider(host_value[1])
             
     with open("log", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")   
