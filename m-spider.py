@@ -15,8 +15,8 @@ import time
 # import socket
 # urllib2.socket.setdefaulttimeout(60) # Python2.6以前的版本
 
-number_of_at_the_same_time_the_process = 1        #同时进程数
-number_of_tasks = 1        # alignment number # 列队中的数目
+number_of_at_the_same_time_the_process = 50        #同时进程数
+number_of_tasks = 999        # alignment number # 列队中的数目
 
 def open_text_file(source_text_file):
     
@@ -102,7 +102,7 @@ def open_text_file(source_text_file):
     for text_line in open(source_text_file):  # 轮询源文件中的网址
         host_value = text_line.split() # 用空格分割字符串，并保存到列表
         status = spider(host_value[0])
-        if status == 0: # 如果source_text_file这个文本中第一列的网址能够访问的话，执行第二列中的网址
+        if status == 0: # 如果source_text_file这个文本中第一列的网址不能够访问的话，执行第二列中的网址
             spider(host_value[1])
             
     with open("log", 'a') as output:
