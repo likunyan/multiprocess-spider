@@ -12,11 +12,12 @@ import string
 import urllib2
 import re
 import time
+import sys
 # import socket
 # urllib2.socket.setdefaulttimeout(60) # Python2.6以前的版本
 
-number_of_at_the_same_time_the_process = 50        #同时进程数
-number_of_tasks = 999        # alignment number # 列队中的数目
+number_of_at_the_same_time_the_process = int(sys.argv[1])        #同时进程数
+number_of_tasks = int(sys.argv[2])        # alignment number # 列队中的数目
 
 def open_text_file(source_text_file):
     
