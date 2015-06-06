@@ -10,11 +10,11 @@ Python多进程网页爬虫
 
 ##使用方法
 - 文本保存名为`self`,其中网址一行一个，且不带http://
-- `python multiprocess-spider.py p l`
+- `python m-spider.py p l`
   - p:进程数(根据机器性能调整，详见效率)
   - l:行数
   - 想要任务数为60，每个进程处理10行数据
-  - `python multiprocess-spider.py 60 10`
+  - `python m-spider.py 60 10`
   - 运行结果会保存为`*-result`(星号指匹配，这边为第N任务数)
 
 ##注意
