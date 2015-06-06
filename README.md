@@ -8,20 +8,16 @@ Python多进程网页爬虫
 
 **使用方法**
 
-`python multiprocess-spider.py M N`
-- M:进程数
-- N:任务数
-当然M < N
+`python multiprocess-spider.py p l`
+- p:进程数(根据机器性能调整，详见效率)
+- l:行数
 
 **情景模拟**
 
 - 在名为`self`的源文件中，保存有10000一行一个的网址（不带http://）
-- 分配思考：10000个网址，切割为1000份，一份10个。嗯...不错的想法
-- 这边需要把self切割为多份,`split  -d -a 3 -l 10 self self`
- - d为数字，a为位数，l为文本行数，第一个self为源文件，第二个self为格式化的文件头
- - 命令执行完后，self文件被切割为10000/10=1000个文件，self000,self001,...,self099,self101,...,self999，这样的。
-- `python multiprocess-spider.py 60 1000`
-- 运行结果会保存为`self*-result`(星号指匹配，这边为任务数N),总计
+- 想要任务数为60，每个进程处理10行数据
+- `python multiprocess-spider.py 60 10`
+- 运行结果会保存为`*-result`(星号指匹配，这边为第N任务数)
 
 **注意**
 
@@ -33,7 +29,6 @@ Python多进程网页爬虫
 
 **升级计划**
 
-- 文本切片
 - httplib2
 
 **联系方式**
