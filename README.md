@@ -11,6 +11,6 @@ pool  //代码里可以设置要分配M个任务、同时执行N个任务，运�
  - 多进程，所以这边需要把urlFile切割为多份,split -a 2 -d -l 168 urlFile self，命令执行完后，urlFile文件被切割为1680/168=10个文件，self00,self01,...,self10,self11,...，这样的。
  - 程序运行结果会保存为self??-result这样的。
 **注意**
-- 需要安装python模块chardet
+- 需要安装python模块chardet  
 **升级计划**
 - httplib2
