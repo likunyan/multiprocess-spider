@@ -24,6 +24,6 @@ pool  //代码里可以设置要分配M个任务、同时执行N个任务，运�
 
 - httplib2
 
-[LIKUNYAN][likunyan]
+[我的维基][likunyan]
 *******************
 [likunyan]:https://www.likunyan.com
