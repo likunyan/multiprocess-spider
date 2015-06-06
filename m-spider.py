@@ -34,7 +34,7 @@ while True:
 thefile.close()
 
 '''
-计算self这个文件，在指定「一个进程处理多少条数据」的时候，需要安排几个任务
+计算 『self』这个文件在指定『一个进程处理多少条数据』的时候，需要安排几个任务
 '''
 if total_text_lines%text_lines == 0:
     number_of_tasks = total_text_lines/text_lines               # alignment number # 列队中的数目
