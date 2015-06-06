@@ -23,7 +23,8 @@ Python多进程网页爬虫
 
 ##效率
 
-1核VPS(Vultr.com)，36个进程左右；2核VPS(directspace.net)，60进程左右。
+- 1核VPS(Vultr.com)，36个进程左右
+- 2核VPS(directspace.net)，60进程左右。
 
 ##升级计划
 
