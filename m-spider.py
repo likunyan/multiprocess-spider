@@ -141,9 +141,6 @@ def open_text_file(i,start_line, end_line):
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(number_of_at_the_same_time_the_process)
-    # 根据不同的任务数，访问不同的文件名格式，
-    # 如任务数99，那么文件名格式为self01,，self12，self99,
-    # 如任务数100，那么为self001，self012，self100
     for i in xrange(number_of_tasks):
         i+=1 #从1开始
         p.apply_async(open_text_file, args=(i,text_lines*(i-1),text_lines*i,))
