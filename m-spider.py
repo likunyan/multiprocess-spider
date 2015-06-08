@@ -22,7 +22,7 @@ def usage():
 
 	Example: python comment.py /home/saylor/test
 	'''
-print len(sys.argv)    
+	
 if len(sys.argv) is 3:
 	# running number of at the same time # 同时运行的数目   
 	number_of_at_the_same_time_the_process = int(sys.argv[1])
