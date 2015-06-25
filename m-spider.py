@@ -19,7 +19,7 @@ def usage():
         >python m-spider.py <进程数 每个进程处理多少行网址>
         
     Example:
-        >m-spider.py 4 4
+        >m-spider.py 10 20
     
     Necessary:
         1.document name:url.txt
@@ -29,7 +29,9 @@ def usage():
         2.chardet
     
     Description:
-        运行结果会保存为*-result（*为模式匹配）
+        *.运行结果会保存为*-result（*为模式匹配）
+        *.中止请按command+z(OS X)
+        
      
     Efficiency:
         *.1 CPU Core : 35 process
@@ -159,7 +161,7 @@ def open_text_file(i,start_line, end_line):
                                 output.write("error"+" "+req_url+"\n")
                                 
     # 记录开始时间                            
-    with open("log", 'a') as output:
+    with open("log_result", 'a') as output:
         output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
     print "进程"+str(i)+"开始"
     
@@ -171,7 +173,7 @@ def open_text_file(i,start_line, end_line):
         if status == 0: # 如果url.txt这个文本中第一列的网址不能够访问的话，执行第二列中的网址
             spider(host_value[1])
             
-    with open("log", 'a') as output:
+    with open("log_result", 'a') as output:
         output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")   
     print "进程"+str(i)+"结束"
     
