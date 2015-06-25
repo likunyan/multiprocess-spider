@@ -18,9 +18,7 @@ def usage():
     help: python m-spider.py <Process_number Text_line>
 
     [Process_number]: running number of at the same time
-    [Text_line]: How line in "self" for each process
-
-    Example: python comment.py /home/saylor/test
+    [Text_line]: How much lines in the self file for each process
     '''
     
 if len(sys.argv) is 3:
