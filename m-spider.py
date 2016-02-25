@@ -16,7 +16,7 @@ import sys
 def usage():
     print u'''
     Usage：
-        >python m-spider.py <进程数 每个进程处理多少行网址>.
+        >python m-spider.py <进程数> <每个进程处理多少行网址>.
         
     Example:
         >m-spider.py 10 20
