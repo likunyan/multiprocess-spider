@@ -128,7 +128,7 @@ def open_text_file(i,start_line, end_line):
                         with open(result_text_file, 'a') as output:
                             output.write(title.group(1)+" "+req_url+"\n")
                     else:
-                        # <title xmlns=...><title> 特殊情况
+                        # <title xmlns=...><title> 特殊情况的title
                         title = re.search(r'<title xmlns="">(.*)</title>', source_is_utf8, flags=re.I)
                         
                         if title:
