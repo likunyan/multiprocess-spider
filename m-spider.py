@@ -3,7 +3,7 @@
 from urllib2 import Request, urlopen, URLError, HTTPError
 from multiprocessing import Pool
 import os
-import chardet # require to install
+import chardet # 需要安装
 import sys
 import string
 import urllib2
@@ -11,50 +11,24 @@ import re
 import time
 import sys
 # import socket
-# urllib2.socket.setdefaulttimeout(30) # backup.before the Python 2.6
+# urllib2.socket.setdefaulttimeout(30) # 适用 Python 2.6
 
 def usage():
     print u'''
-    What:
-        笔者在IDC工作，那边的windows虚拟主机经常被黑，被加博彩链接，所以笔者就写了这个，判断哪个网站是打不开的、被加博彩链接的，好记录下来。
-        记录的话，会记录错误类型（404，502，被加的）、网址、标题
     Usage：
         >python m-spider.py <进程数> <每个进程处理多少行网址>.
         
     Example:
         >m-spider.py 10 20
-    
-    Necessary:
-        1.document name:url.txt
-            1.网址一行两列,以空格间隔
-                *.每行第一列为虚拟主机提供商提供的测试网址，每行第二列为客户域名网址
-            2.不带http://
-        2.chardet
-    
-    Description:
-        *.运行结果会保存为*-result（*为模式匹配）
-        *.中止请按command+z(OS X)
-        
-     
-    Efficiency:
-        *.1 CPU Core : 35 process
-        *.2 CPU Core : 60 process
-        
-    Project:
-        https://github.com/likunyan/multiprocess-spider
-            
-    Follow:
-        李坤严 2015/06/25
-        https://www.likunyan.com
     '''
     
-#定义,文件名    
+# 定义,文件名    
 text_file = "url.txt"    
 
 if len(sys.argv) is 3:
-    #定义,进程数
+    # 定义,进程数
     number_of_processes = int(sys.argv[1])
-    #定义,每个进程处理多少行网址
+    # 定义,每个进程处理多少行网址
     text_lines = int(sys.argv[2])
 elif len(sys.argv) is not 3:
     usage()
@@ -114,29 +88,13 @@ def open_text_file(i,start_line, end_line):
                     if "百家乐" in source_is_utf8:
                         with open(result_text_file, 'a') as output:
                             output.write("违规信息-百家乐"+" "+req_url+"\n")
-                    elif "太阳城" in source_is_utf8:
-                        with open(result_text_file, 'a') as output:
-                            output.write("违规信息-太阳城"+" "+req_url+"\n")
                             
                     # 因为有的标题是多行的，保存起来有问题，所以这边去掉一切换行
                     source_is_utf8 = string.replace(source_is_utf8, '\r\n', '');
                     source_is_utf8 = string.replace(source_is_utf8, '\n', '');
                     title = re.search(r'<title>(.*?)</title>', source_is_utf8, flags=re.I)
-                    #if m: # 网址标题是否为空
-                        #print title.group()
-                    if title:
-                        with open(result_text_file, 'a') as output:
-                            output.write(title.group(1)+" "+req_url+"\n")
-                    else:
-                        # <title xmlns=...><title> 特殊情况的title
-                        title = re.search(r'<title xmlns="">(.*)</title>', source_is_utf8, flags=re.I)
-                        
-                        if title:
-                            with open(result_text_file, 'a') as output:
-                                output.write(title.group(1)+" "+req_url+"\n")
-                        else:
-                            with open(result_text_file, 'a') as output:
-                                output.write("error"+" "+req_url+"\n")
+                    with open(result_text_file, 'a') as output:
+                        output.write(title.group(1)+" "+req_url+"\n")
                 else:
                     source_no_utf8 = html_source.decode('gbk', 'ignore').encode('utf-8')
                     source_no_utf8 = string.replace(source_no_utf8, '\r\n', '');
@@ -145,28 +103,14 @@ def open_text_file(i,start_line, end_line):
                     
                     if "百家乐" in source_no_utf8:
                         with open(result_text_file, 'a') as output:
-                            output.write("违规信息-百家乐"+" "+req_url+"\n")
-                    elif "太阳城" in source_no_utf8:
-                        with open(result_text_file, 'a') as output:
-                            output.write("违规信息-太阳城"+" "+req_url+"\n")
-                            
-                    if title:  # 网址标题是否为空
-                        with open(result_text_file, 'a') as output:
-                            output.write(title.group(1)+" "+req_url+"\n")
-                    else:
-                        title = re.search(r'<title xmlns="">(.*)</title>', source_no_utf8, flags = re.I)
-                        
-                        if title:
-                            with open(result_text_file, 'a') as output:
-                                output.write(title.group(1)+" "+req_url+"\n")
-                        else:
-                            with open(result_text_file, 'a') as output:
-                                output.write("error"+" "+req_url+"\n")
+                            output.write("违规信息-百家乐"+" "+req_url+"\n")    
+                    with open(result_text_file, 'a') as output:
+                        output.write(title.group(1)+" "+req_url+"\n")
                                 
     # 记录开始时间                            
     with open("log_result", 'a') as output:
-        output.write("开始时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
-    print "进程"+str(i)+"开始"
+        output.write("Start time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")
+    print "Subprocesses "+str(i)+" start"
     
     result_text_file = str(i)+"-result"  # 执行结果以进程标志+result形式保存
     
@@ -177,15 +121,15 @@ def open_text_file(i,start_line, end_line):
             spider(host_value[1])
             
     with open("log_result", 'a') as output:
-        output.write("结束时间:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")   
-    print "进程"+str(i)+"结束"
+        output.write("End time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"\n")   
+    print "Subprocesses "+str(i)+" end"
     
     
 if __name__=='__main__':
     print 'Parent process %s.' % os.getpid()
     p = Pool(number_of_processes)
     for i in xrange(number_of_tasks):
-        i+=1 #从1开始
+        i+=1 # 从 1 开始
         p.apply_async(open_text_file, args=(i,text_lines*(i-1),text_lines*i,))
             
     print 'Waiting for all subprocesses done...'
